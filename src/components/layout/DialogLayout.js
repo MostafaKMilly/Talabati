@@ -6,12 +6,12 @@ import {
   DialogTitle,
   Icon,
   IconButton,
-  Typography,
 } from "@mui/material";
 import { styled, Box } from "@mui/system";
-import React, { useState } from "react";
+import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import CustomTextField from "./CustomTextField";
+import { useDispatch } from "react-redux";
+import { LocalForm } from "react-redux-form";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -46,26 +46,24 @@ const BootstrapDialogTitle = (props) => {
   );
 };
 
-function CustomDialog({ open, setOpen }) {
-  const [categoryName, setCategoryName] = useState();
+function DialogLayout(props) {
+  const dispatch = useDispatch();
 
   const handleClose = () => {
-    setOpen(false);
+    props.setOpen(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (categoryName?.length) {
-      alert(categoryName);
-      handleClose();
-    }
+  const handleSubmit = (values) => {
+    dispatch(props.handleActitvty(values));
+    handleClose();
   };
+
   return (
     <div>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={open}
+        open={props.open}
         scroll="paper"
         sx={{
           top: {
@@ -81,36 +79,26 @@ function CustomDialog({ open, setOpen }) {
           id="customized-dialog-title"
           onClose={handleClose}
         >
-          اضافة صنف
+          {props.activityName}
         </BootstrapDialogTitle>
-        <Box component="form" onSubmit={handleSubmit}>
+        <LocalForm model="addCategory" onSubmit={handleSubmit}>
           <DialogContent dividers>
             <Box textAlign="center" mb={1} mt={2}>
               <Icon color="primary" sx={{ fontSize: "80px" }}>
-                restaurant
+                {props.iconName}
               </Icon>
             </Box>
-            <Box p={3}>
-              <CustomTextField
-                label="الاسم"
-                variant="standard"
-                size="large"
-                required={true}
-                value={categoryName}
-                fullWidth
-                onChange={(e) => setCategoryName(e.target.value)}
-              />
-            </Box>
+            <Box p={3}>{props.children}</Box>
           </DialogContent>
           <DialogActions>
             <Button autoFocus type="submit">
               حفظ التغييرات
             </Button>
           </DialogActions>
-        </Box>
+        </LocalForm>
       </BootstrapDialog>
     </div>
   );
 }
 
-export default CustomDialog;
+export default DialogLayout;

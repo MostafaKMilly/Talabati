@@ -1,13 +1,5 @@
 import { Add } from "@mui/icons-material";
-import {
-  Button,
-  Container,
-  Grid,
-  Icon,
-  IconButton,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Grid, Icon } from "@mui/material";
 import { Box, styled } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,7 +7,8 @@ import {
   fetchCategories,
   selectAllCategories,
 } from "../redux/slices/categoriesSlice";
-import CustomDialog from "./UI/CustomDialog";
+import AddCategory from "./modals/AddCategory";
+import Loading from "./UI/Loading";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   width: 170,
@@ -37,14 +30,14 @@ function Categories(props) {
   }, []);
 
   if (isCategoiresLoading === true) {
-    return <Typography>Loading</Typography>;
+    return <Loading />;
   }
   return (
     <>
       <Container maxWidth="sm" sx={{ mt: 3 }}>
-        <Grid container justifyContent="center" rowSpacing={3}>
+        <Grid container justifyContent="center" rowSpacing={3} mb={3}>
           {categories.map((category) => (
-            <Grid item xs={12} md={5} textAlign="center">
+            <Grid item xs={12} md={5} textAlign="center" key={category.id}>
               <CustomButton variant="contained">
                 <Box>
                   <Icon fontSize="large">restaurant</Icon>
@@ -68,7 +61,7 @@ function Categories(props) {
           </Grid>
         </Grid>
       </Container>
-      <CustomDialog open={modelIsOpen} setOpen={setModelIsOpen} />
+      <AddCategory open={modelIsOpen} setOpen={setModelIsOpen} />
     </>
   );
 }

@@ -21,7 +21,7 @@ export const categoriesSlice = createSlice({
     },
     addCategory: (state, action) => {
       const id = state.items[state.items.length - 1].id + 1;
-      state.items.push({ name: action.payload.name, id });
+      state.items.push({ name: action.payload, id });
     },
   },
 });
