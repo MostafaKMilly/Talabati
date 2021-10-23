@@ -1,14 +1,11 @@
 import { Add } from "@mui/icons-material";
 import { Button, Container, Grid, Icon } from "@mui/material";
 import { Box, styled } from "@mui/system";
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  fetchCategories,
-  selectAllCategories,
-} from "../redux/slices/categoriesSlice";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { selectAllCategories } from "../redux/slices/categoriesSlice";
 import AddCategory from "./modals/AddCategory";
-import Loading from "./UI/Loading";
 
 const CustomButton = styled(Button)(({ theme }) => ({
   width: 170,
@@ -19,26 +16,20 @@ const CustomButton = styled(Button)(({ theme }) => ({
 
 function Categories(props) {
   const categories = useSelector(selectAllCategories);
-  const isCategoiresLoading = useSelector(
-    (state) => state.categories.isLoading
-  );
+  const history = useHistory();
+
   const [modelIsOpen, setModelIsOpen] = useState(false);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, []);
-
-  if (isCategoiresLoading === true) {
-    return <Loading />;
-  }
   return (
     <>
       <Container maxWidth="sm" sx={{ mt: 3 }}>
         <Grid container justifyContent="center" rowSpacing={3} mb={3}>
           {categories.map((category) => (
             <Grid item xs={12} md={5} textAlign="center" key={category.id}>
-              <CustomButton variant="contained">
+              <CustomButton
+                variant="contained"
+                onClick={() => history.push(`/categoris/${category.id}`)}
+              >
                 <Box>
                   <Icon fontSize="large">restaurant</Icon>
                 </Box>

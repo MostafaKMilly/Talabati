@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import CATEGORIES from "../../shared/categories.js";
+import FOODS from "../../shared/foods";
 
 const initialState = {
   items: [],
@@ -7,33 +7,44 @@ const initialState = {
   errMess: null,
 };
 
-export const categoriesSlice = createSlice({
-  name: "categories",
+export const foodSlice = createSlice({
+  name: "foods",
   initialState,
   reducers: {
-    getCategories: (state, action) => {
+    getFoods: (state, action) => {
       state.items = action.payload;
       state.isLoading = false;
+      state.errMess = null;
     },
-    getCategoriesFailed: (state, action) => {
+    loadingFoods: (state) => {
+      state.isLoading = true;
+    },
+    getFoodsFailed: (state, action) => {
+      state.items = [];
       state.isLoading = false;
       state.errMess = action.payload;
     },
-    addCategory: (state, action) => {
+    addFoods: (state, action) => {
       const id = state.items[state.items.length - 1].id + 1;
       state.items.push({ name: action.payload, id });
     },
   },
 });
 
-export const { getCategories, getCategoriesFailed, addCategory } =
-  categoriesSlice.actions;
-export default categoriesSlice.reducer;
+export const { getFoods, getFoodsFailed, addFoods, loadingFoods } =
+  foodSlice.actions;
+export default foodSlice.reducer;
 
-export const selectAllCategories = (state) => state.categories.items;
+export const selectFoodsByCategory = (state) => state.foods.items;
 
-export const fetchCategories = () => (dispatch) => {
+export const fetchFoods = (categoryId) => (dispatch) => {
+  dispatch(loadingFoods());
   setTimeout(() => {
-    dispatch(getCategories(CATEGORIES));
+    const foods = FOODS.filter((food) => food.categoryId === categoryId);
+    if (!foods.length) {
+      dispatch(getFoodsFailed("There are no foods for this category"));
+    } else {
+      dispatch(getFoods(foods));
+    }
   }, 1000);
 };
