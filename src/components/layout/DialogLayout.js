@@ -54,7 +54,7 @@ function DialogLayout(props) {
   };
 
   const handleSubmit = (values) => {
-    dispatch(props.handleActitvty(values));
+    dispatch(props.handleActitvty({ ...values, categoryId: props.categoryId }));
     handleClose();
   };
 

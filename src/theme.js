@@ -14,6 +14,9 @@ const theme = createTheme({
       light: "#ffffaf",
       dark: "#c59d51",
     },
+    text: {
+      secondary: "#545658",
+    },
   },
   typography: {
     fontFamily: "Tajawal",

@@ -26,13 +26,33 @@ export const foodSlice = createSlice({
     },
     addFoods: (state, action) => {
       const id = state.items[state.items.length - 1].id + 1;
-      state.items.push({ name: action.payload, id });
+      state.items.push({
+        name: action.payload.name,
+        id,
+        categoryId: action.payload.categoryId,
+        price: action.payload.price,
+      });
+    },
+    deleteFood: (state, action) => {
+      const id = action.payload;
+      state.items = state.items.filter((item) => item.id !== id);
+    },
+    editFood: (state, action) => {
+      const id = action.payload.id;
+      const index = state.items.findIndex((item) => item.id === id);
+      state.items[index] = { ...state.items[index], ...action.payload };
     },
   },
 });
 
-export const { getFoods, getFoodsFailed, addFoods, loadingFoods } =
-  foodSlice.actions;
+export const {
+  getFoods,
+  getFoodsFailed,
+  addFoods,
+  loadingFoods,
+  editFood,
+  deleteFood,
+} = foodSlice.actions;
 export default foodSlice.reducer;
 
 export const selectFoodsByCategory = (state) => state.foods.items;

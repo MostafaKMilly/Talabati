@@ -8,19 +8,22 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { selectAllCategories } from "../redux/slices/categoriesSlice";
 import { fetchFoods, selectFoodsByCategory } from "../redux/slices/foodsSlice";
+import FoodsTable from "./FoodsTable";
+import AddFood from "./modals/AddFood";
 import Loading from "./UI/Loading";
-import NotFoundPage from "./UI/NotFoundPage";
 
 const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
   borderLeft: `2px solid ${theme.palette.primary.main}`,
 }));
 
 function Foods(props) {
+  const [modelIsOpen, setModelIsOpen] = useState(false);
+
   const foods = useSelector(selectFoodsByCategory);
   const categories = useSelector(selectAllCategories);
   const foodsIsLoading = useSelector((state) => state.foods.isLoading);
@@ -37,16 +40,9 @@ function Foods(props) {
     link: `/categoris/${category.id}`,
   }));
 
-  const foodsList = !foodsErrMess ? (
-    foods.map((food) => (
-      <List item key={food.key}>
-        <ListItemText>{food.name}</ListItemText>
-      </List>
-    ))
-  ) : (
-    <NotFoundPage message={foodsErrMess} marginTop={7} />
-  );
-
+  if (foodsIsLoading) {
+    return <Loading />;
+  }
   return (
     <Container maxWidth="xl" sx={{ mt: 2 }}>
       <Grid container rowSpacing={4} columnSpacing={4}>
@@ -81,8 +77,23 @@ function Foods(props) {
             ))}
           </List>
         </Grid>
-        <Grid item xs={12} md={9}>
-          {foodsIsLoading ? <Loading /> : <List>{foodsList}</List>}
+        <Grid item xs={12} md={9} mt={1}>
+          <Typography variant="h5" color="textSecondary" fontWeight={600}>
+            {props.category.name}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            قائمة الاطعمة
+          </Typography>
+          <FoodsTable
+            foods={foods}
+            foodsErrMess={foodsErrMess}
+            setModelIsOpen={setModelIsOpen}
+          />
+          <AddFood
+            open={modelIsOpen}
+            setOpen={setModelIsOpen}
+            categoryId={props.category.id}
+          />
         </Grid>
       </Grid>
     </Container>
