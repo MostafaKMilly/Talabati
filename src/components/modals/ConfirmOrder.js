@@ -1,4 +1,4 @@
-import { List, ListItem } from "@mui/material";
+import { List, ListItem, ListItemText } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -24,6 +24,7 @@ const orederTextField = (props) => {
 function ConfirmOrder(props) {
   const oreders = useSelector(selectAllOreders);
   const selectedFoods = useSelector((state) => state.orders.selectedFoods);
+  console.log(selectedFoods);
   return (
     <DialogLayout
       open={props.open}
@@ -32,16 +33,15 @@ function ConfirmOrder(props) {
       iconName={"lunch_dining"}
       activityName={"الطلبات"}
     >
-      {selectFoods.map((food) => (
-        <Box display="flex" component={LocalForm}>
-          <Control
-            model=".name"
-            name="name"
-            component={orederTextField}
-            mapProps={{ foodName: food.name }}
-          />
-        </Box>
-      ))}
+      <List>
+        {selectedFoods.map((selectedFood, index) => (
+          <ListItem>
+            <ListItemText>
+              {selectedFood[index].name + " " + selectedFood[index].price}
+            </ListItemText>
+          </ListItem>
+        ))}
+      </List>
     </DialogLayout>
   );
 }

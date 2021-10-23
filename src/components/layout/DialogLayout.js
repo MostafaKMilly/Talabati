@@ -91,7 +91,14 @@ function DialogLayout(props) {
             <Box p={3}>{props.children}</Box>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus type="submit">
+            <Button
+              autoFocus
+              type="submit"
+              sx={{
+                visibility:
+                  props.handleActitvty === null ? "hidden" : "visible",
+              }}
+            >
               حفظ التغييرات
             </Button>
           </DialogActions>
