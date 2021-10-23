@@ -23,6 +23,8 @@ import { Box } from "@mui/system";
 import CustomCheckBox from "./CustomCheckBox";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import FoodsActions from "../FoodsActions";
+import { useDispatch } from "react-redux";
+import { selectFoods } from "../../redux/slices/orderSlice";
 
 function MyTablePagination({
   data,
@@ -61,6 +63,7 @@ function MyTablePagination({
 }
 
 function EnhancedTable({ columns, data, setModelIsOpen }) {
+  const dispatch = useDispatch();
   const dealersTable = useTable(
     { columns, data, initialState: { pageIndex: 0, pageSize: 8 } },
     useGlobalFilter,
@@ -113,6 +116,9 @@ function EnhancedTable({ columns, data, setModelIsOpen }) {
 
   const { globalFilter, pageIndex, pageSize } = state;
 
+  if (selectedFlatRows.length) {
+    dispatch(selectFoods(selectedFlatRows.map((item) => item.original)));
+  }
   const handleChangePage = (event, newPage) => {
     gotoPage(newPage);
   };

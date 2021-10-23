@@ -19,7 +19,7 @@ function FoodsActions(props) {
       >
         <DeleteIcon />
       </IconButton>
-      <IconButton aria-label="delete" color="primary" size="small">
+      <IconButton aria-label="edit" color="primary" size="small">
         <ModeEdit />
       </IconButton>
     </Box>

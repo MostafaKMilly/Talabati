@@ -23,7 +23,7 @@ const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
 
 function Foods(props) {
   const [modelIsOpen, setModelIsOpen] = useState(false);
-
+  const [orderModelIsOpen, orderSetModelIsOpen] = useState(false);
   const foods = useSelector(selectFoodsByCategory);
   const categories = useSelector(selectAllCategories);
   const foodsIsLoading = useSelector((state) => state.foods.isLoading);
