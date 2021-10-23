@@ -12,6 +12,10 @@ function NotFoundPage(props) {
         right: "49%",
         marginRight: "-147px",
         mt: props.marginTop || 0,
+        visibility: {
+          xs: "hidden",
+          md: "visible",
+        },
       }}
     >
       <Typography variant="h5" color="primary" sx={{ mt: 4 }}>

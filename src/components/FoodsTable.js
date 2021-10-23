@@ -31,6 +31,8 @@ function FoodsTable(props) {
           columns={columns}
           data={props.foods}
           setModelIsOpen={props.setModelIsOpen}
+          setEditModelIsOpen={props.setEditModelIsOpen}
+          setConfirmOrderIsOpen={props.setConfirmOrderIsOpen}
         />
       </Box>
     </>

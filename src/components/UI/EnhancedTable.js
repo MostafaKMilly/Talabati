@@ -23,6 +23,8 @@ import { Box } from "@mui/system";
 import CustomCheckBox from "./CustomCheckBox";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import FoodsActions from "../FoodsActions";
+import { useDispatch, useSelector } from "react-redux";
+import { selectFoods } from "../../redux/slices/orderSlice";
 
 function MyTablePagination({
   data,
@@ -60,7 +62,15 @@ function MyTablePagination({
   );
 }
 
-function EnhancedTable({ columns, data, setModelIsOpen }) {
+function EnhancedTable({
+  columns,
+  data,
+  setModelIsOpen,
+  setEditModelIsOpen,
+  setConfirmOrderIsOpen,
+}) {
+  const dispatch = useDispatch();
+  const selectedFoods = useSelector((state) => state.orders.selectedFoods);
   const dealersTable = useTable(
     { columns, data, initialState: { pageIndex: 0, pageSize: 8 } },
     useGlobalFilter,
@@ -91,7 +101,7 @@ function EnhancedTable({ columns, data, setModelIsOpen }) {
           Header: "Actions",
           Cell: ({ row }) => (
             <div>
-              <FoodsActions row={row} />
+              <FoodsActions row={row} setEditModelIsOpen={setEditModelIsOpen} />
             </div>
           ),
         },
@@ -113,6 +123,13 @@ function EnhancedTable({ columns, data, setModelIsOpen }) {
 
   const { globalFilter, pageIndex, pageSize } = state;
 
+  if (
+    selectedFlatRows.length &&
+    selectedFlatRows.length !== selectedFoods.length
+  ) {
+    console.log(selectedFlatRows);
+    dispatch(selectFoods(selectedFlatRows.map((item) => item.original)));
+  }
   const handleChangePage = (event, newPage) => {
     gotoPage(newPage);
   };
@@ -139,7 +156,7 @@ function EnhancedTable({ columns, data, setModelIsOpen }) {
             ml: 2,
             display: !selectedFlatRows.length ? "none" : "inline-flex",
           }}
-          onClick={() => setModelIsOpen(true)}
+          onClick={() => setConfirmOrderIsOpen(true)}
           startIcon={<LocalGroceryStoreIcon />}
         >
           حساب

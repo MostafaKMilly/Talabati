@@ -19,7 +19,12 @@ function FoodsActions(props) {
       >
         <DeleteIcon />
       </IconButton>
-      <IconButton aria-label="delete" color="primary" size="small">
+      <IconButton
+        aria-label="edit"
+        color="primary"
+        size="small"
+        onClick={() => props.setEditModelIsOpen(true)}
+      >
         <ModeEdit />
       </IconButton>
     </Box>
