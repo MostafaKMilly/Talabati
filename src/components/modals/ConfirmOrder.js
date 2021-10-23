@@ -7,8 +7,22 @@ import { selectAllOreders } from "../../redux/slices/orderSlice";
 import DialogLayout from "../layout/DialogLayout";
 import CustomTextField from "../UI/CustomTextField";
 
+const orederTextField = (props) => {
+  return (
+    <CustomTextField
+      label="السعر"
+      variant="standard"
+      size="large"
+      required={true}
+      fullWidth
+      onChange={props.onChange}
+    />
+  );
+};
+
 function ConfirmOrder(props) {
   const oreders = useSelector(selectAllOreders);
+  const selectedFoods = useSelector((state) => state.orders.selectedFoods);
   return (
     <DialogLayout
       open={props.open}

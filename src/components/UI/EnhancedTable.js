@@ -62,7 +62,7 @@ function MyTablePagination({
   );
 }
 
-function EnhancedTable({ columns, data, setModelIsOpen }) {
+function EnhancedTable({ columns, data, setModelIsOpen, setEditModelIsOpen }) {
   const dispatch = useDispatch();
   const dealersTable = useTable(
     { columns, data, initialState: { pageIndex: 0, pageSize: 8 } },
@@ -94,7 +94,7 @@ function EnhancedTable({ columns, data, setModelIsOpen }) {
           Header: "Actions",
           Cell: ({ row }) => (
             <div>
-              <FoodsActions row={row} />
+              <FoodsActions row={row} setEditModelIsOpen={setEditModelIsOpen} />
             </div>
           ),
         },

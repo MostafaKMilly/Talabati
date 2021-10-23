@@ -15,6 +15,7 @@ import { selectAllCategories } from "../redux/slices/categoriesSlice";
 import { fetchFoods, selectFoodsByCategory } from "../redux/slices/foodsSlice";
 import FoodsTable from "./FoodsTable";
 import AddFood from "./modals/AddFood";
+import EditFood from "./modals/EditFood";
 import Loading from "./UI/Loading";
 
 const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
@@ -23,6 +24,7 @@ const CustomListItemButton = styled(ListItemButton)(({ theme }) => ({
 
 function Foods(props) {
   const [modelIsOpen, setModelIsOpen] = useState(false);
+  const [editModeIsOpen, setEditModelIsOpen] = useState(false);
   const [orderModelIsOpen, orderSetModelIsOpen] = useState(false);
   const foods = useSelector(selectFoodsByCategory);
   const categories = useSelector(selectAllCategories);
@@ -88,10 +90,16 @@ function Foods(props) {
             foods={foods}
             foodsErrMess={foodsErrMess}
             setModelIsOpen={setModelIsOpen}
+            setEditModelIsOpen={setEditModelIsOpen}
           />
           <AddFood
             open={modelIsOpen}
             setOpen={setModelIsOpen}
+            categoryId={props.category.id}
+          />
+          <EditFood
+            open={editModeIsOpen}
+            setOpen={setEditModelIsOpen}
             categoryId={props.category.id}
           />
         </Grid>
